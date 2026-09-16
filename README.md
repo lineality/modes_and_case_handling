@@ -809,8 +809,8 @@ With default settings, using plain arithmetic operators:
 So: use checked_add / checked_sub / checked_mul / checked_shl in production.
 
 
+# Appendix 1: Links & References
 
-Appendix 1: Links & References
 - https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code
 - https://spinroot.com/gerard/pdf/P10.pdf
 - https://spinroot.com/static/index.html
@@ -818,9 +818,9 @@ Appendix 1: Links & References
 - https://www.youtube.com/watch?v=JWKadu0ks20
 - https://en.wikipedia.org/wiki/Static_program_analysis
 - https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/
+- https://github.com/lineality/rust_lang_rules
 
-
-Appendix 2: Summary of Revised 10 Areas
+# Appendix 2: Summary of Revised 10 Areas
 
 We can try to make a list of '10 Rust Production Rules' updated for broader general systems programming in 2026 based on NASA's 2006 'Power of 10' rules that were originally narrowly framed for c for embedded-systems. 
 
