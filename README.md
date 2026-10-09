@@ -1,7 +1,8 @@
+(Under Construction)
 ### Modes & Case Handling Framework 
 2026 Geoffrey Gordon Ashbrook
 
-Four Levels of State Recovery:
+# Four Levels of State Recovery:
 1. Error Correcting Code
 2. Single Value Retry/Recovery
 3. Block/Process Retry/Recovery
@@ -96,6 +97,10 @@ Hopefully in future, as more such frameworks are compared, it will become cleare
 
 
 #### 'Power of 10' Style Modes and Case-Handling in Rust:
+- Bullet Point Outline Summary
+- More Detailed Discussion
+
+
 
 # Compile-Mode-Differentiated Case & Error Handling Policy & Framework: A Three-Mode System using Fieldless Error-Codes
 
@@ -809,18 +814,20 @@ With default settings, using plain arithmetic operators:
 So: use checked_add / checked_sub / checked_mul / checked_shl in production.
 
 
-# Appendix 1: Links & References
 
-- https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code
-- https://spinroot.com/gerard/pdf/P10.pdf
-- https://spinroot.com/static/index.html
-- https://web.eecs.umich.edu/~imarkov/10rules.pdf
-- https://www.youtube.com/watch?v=JWKadu0ks20
-- https://en.wikipedia.org/wiki/Static_program_analysis
-- https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/
-- https://github.com/lineality/rust_lang_rules
+### Appendix 1: Links & References
+- https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code 
+- https://spinroot.com/gerard/pdf/P10.pdf 
+- https://spinroot.com/static/index.html 
+- https://web.eecs.umich.edu/~imarkov/10rules.pdf 
+- https://www.stroustrup.com/JSF-AV-rules.pdf 
+- https://www.youtube.com/watch?v=JWKadu0ks20 
+- https://en.wikipedia.org/wiki/Static_program_analysis 
+- https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ 
+- Mike Acton ("Data-Oriented Design and C++," CppCon 2014)
 
-# Appendix 2: Summary of Revised 10 Areas
+
+### Appendix 2: Summary of Revised 10 Areas
 
 We can try to make a list of '10 Rust Production Rules' updated for broader general systems programming in 2026 based on NASA's 2006 'Power of 10' rules that were originally narrowly framed for c for embedded-systems. 
 
@@ -873,11 +880,11 @@ Part of having a function be 'focused' means knowing if the function is in scope
 - expanding state destroys projects with unmaintainable over-reach
 
 
-Appendix 3: Advanced: using error-catching and error-correcting features to recover from accidental or adversarial value-distortions.
+### Appendix 3: Advanced: using error-catching and error-correcting features to recover from accidental or adversarial value-distortions.
 
 1. redundant-checked values (less likely if both copies altered)
 2. Hamming code value formats
 3. 
 
-Appendix 4: Advanced: Erasure of sensitive values as part of handling
+### Appendix 4: Advanced: Erasure of sensitive values as part of handling
 
