@@ -162,3 +162,7 @@ match fallible_call(input) {
 - Allow effective "blocks" of codes for functions, to allow coherent numbering and easy incrementing in case two developers collide. e.g. if the last two digits are internal to a function, u16 would allow for 654 functions to each have 99 internal errors (or depending on average function size, ten per function may be enough on average).
 - alt phrasing: allow 10 or 100 error-codes per function to manage allocations and changes to codes
 
+
+#### See:
+- https://github.com/lineality/rust_lang_rules
+
