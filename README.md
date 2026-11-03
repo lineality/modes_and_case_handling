@@ -612,10 +612,9 @@ and the check happened inside that function.
 The function you called handed you a 'success-or-failure' result. 
 
 
-### Never Use '?'
-Use of '?' is in tension or conflict with at least two of this framework's  goals / mechanisms (per-site variants, mode-gated diagnostics). Using '?' silently reintroduces untraceable, unaudited propagation. Real life tends to be full of strange rare edge cases, but even so I am not aware: 
-- There are no areas where '?' is required-rigor in Rust. 
-- '?' is always a convenience-shortcut that is not compatible with this framework.
+### Avoid '?' if Obscures error
+Use of '?' can be in tension or conflict with at least two of this framework's  goals / mechanisms (per-site variants, mode-gated diagnostics). Using '?' might reintroduce untraceable, unaudited propagation. In other cases not using '?' might create redundant error-data not directed at the original source if that can be propagated. Real life tends to be full of strange cases. 
+- '?' should be avoided where it would obscure an error.
 
 Matching each call with a clear error pointing to that case improves transparency and communication.
 
