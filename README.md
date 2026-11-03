@@ -633,10 +633,13 @@ e.g. ("is X length ≤ 42?", "is Y denominator 0?")
 debug_assert!(condition, "ACRO-NNN: fn_name: detail {}", value);
 
 if !condition {
-    // Debug/test diagnostic. May format text (heap OK) because this line
+    // Debug/test diagnostic is permitted to format text (heap OK) 
+    // because this line
     // is compiled out of production-release builds entirely.
+    // Note: single source of truth for number must be enforced,
+    // no hard-coding of code-numbers in messages
     #[cfg(debug_assertions)]
-    eprintln!("ACRO-NNN: fn_name: detail: {}", value);
+    eprintln!("ACRO-{}: fn_name: detail: {}", YourProjectError::AcroFnCondition.code(), value);
 
     // Compiled in EVERY build; the only response that exists in
     // production-release: return the 2-byte code. No print, no heap.
