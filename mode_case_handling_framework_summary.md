@@ -135,7 +135,7 @@ pub enum YourProjectError {
 ```rust
 if !condition {
     #[cfg(debug_assertions)]
-    eprintln!("ACRO-101: detail: {}", value);
+    eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
     return Err(YourProjectError::AcroFnCondition);
 }
 ```
@@ -146,7 +146,7 @@ match fallible_call(input) {
     Ok(v) => Ok(v),
     Err(_detail) => {
         #[cfg(debug_assertions)]
-        eprintln!("ACRO-101: {}", _detail);
+        eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
         Err(YourProjectError::AcroFnCondition)
     }
 }
