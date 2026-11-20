@@ -616,9 +616,29 @@ and the check happened inside that function.
 The function you called handed you a 'success-or-failure' result. 
 
 
-## Communicate Errors Clearly
+## Communicating Errors "Clearly"
+
+There is context, there are trade-offs, and specific design decisions shape how errors and cases are handled per mode (the whole narrative here). 
+
 ### Use of '?'
-Case by case: Do not use '?' if doing so would obscure a case, error, or issue. It is often best to pass an error along clearly, to raise it clearly, e.g. with '?', e.g. so that the problem that was raised is not obscured in a cascade of not-the-cause secondary 'error' messages (e.g. life in the python-nightmare). 
+
+Case by case: Do not use '?' if doing so would obscure a case, error, or issue (or if an exact site is absolutely needed for a production error (and '?' would obscure that)). It is often best to pass an error along clearly, to raise it clearly, e.g. with '?', e.g. so that the problem that was raised is not obscured (e.g. life in the not-production-appropriate world of python (where none of the modes focused on here are clearly handled well)). 
+
+For example, what are the choices and tradeoffs for production vs. debug mode where a root-source-cause error code is not the same as a site-of-issue code, e.g. a function (with one code (set)) is called in more than one place, and that code is passed on.
+
+E.g. Where the same code may be raised at multiple sites:
+- In Production-Release Mode: A production log (or, if more rarely, program exit upon error) will report the shared root code, not which of the N sites raised that code. 
+- In Debug-Mode: Debug-prints to log and or terminal (e.g. `eprintln!`) CAN supplement the report by identifying the exact site.
+- In Test-Mode you can get a full panic stack trace.
+
+If trace/site-detailed debugging can be done (fittingly) in Debug-Mode, I am guessing that is often a good compromise, e.g. selecting the tradeoff of potentially information preserving brevity for production errors that are not meant to be a full trace.
+
+Possibly important note: This may also be a critical point in arguing for context and project specific design, e.g. for Performant-Flat-ness and against ideological reifications like dogmatic-arbitrary DRY and arbitrary maximalist separation of pedantic 'concerns.' Having the necessary code live natively with a native error-code at each site (so long as that does not confuse or obstruct the compiler or performance-optimization) may (in some cases) be most appropriate. The other side to Casey Muratori's demonstrations that fragmented functions hamstring compilers is that such theoretically "same-ish" functions are (at times) in reality NOT the same when (and exactly how) those (differently implemented) functions get compiled into assembly and machine code, per hardware. One abstraction function used in five places might more appropriately be five unique sites with unique assembly architectures that only share an abstractly taxonomic familiarity with each other (such as a top down view of biology showing that worms and primates are effectively the same single abstract 'concern').
+
+If there is a particular set of tradeoffs where [knowing the specific] site is looking to be critical, that may be an indication that functions need to be flattened and less fragmented. This may (speculatively) be more important for 'hot' regions of code, or (conversely) to safety-critical rare 'cold' regions.
+
+Contrary-wise again, for security sensitive code where performance and debugging are less important than not-exposing potentially security-relevant information about the issue, production messages might be designed to be less site-specific (with other resulting costs being considered worth it). 
+
 
 #### Common issues obscuring real [causes of] 'errors':
 1. ~Remapping / rerouting: e.g. .map_err(|_| SomeOtherCode) replaces the root cause with a not-the-cause code / message / response / handling (try/except is jungle of edge-cases, silent-cases, masked-cases, and missed-cases)
