@@ -146,7 +146,7 @@ match fallible_call(input) {
     Ok(v) => Ok(v),
     Err(_detail) => {
         #[cfg(debug_assertions)]
-        eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
+        eprintln!("ACRO-{}: fn_name: {}", YourProjectError::AcroFnCondition.code(), _detail);
         Err(YourProjectError::AcroFnCondition)
     }
 }
