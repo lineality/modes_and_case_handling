@@ -60,11 +60,26 @@
 - vanilla custom types (without additional validity-checks) guard against design errors (coding-mistakes) and 'expected' errors.
 - additional validity-rechecks can add guards against some electrical, hardware, and adversarial based errors, or 'unexpected errors.'
 - Getting and mutation/updating use methods that must be manually designed to check & enforce boundary checks and validity.
+  
 #### Public & Private
 - note: the individual rules for structs, enums, impls, and their combinations, vary.
 - A struct CAN be safely pub (so other modules can use the type name in signatures).
 - The struct's inner fields should NOT be pub (so other modules cannot bypass checks).
-- Example of safety for combinations: if an enum variant carries data then do not put raw unbounded primitives inside that; rather, put a bounded struct inside.
+- Enum variants (that carry data): Variant's data must be a custom struct, not a bare integer.
+  - This: `Command::SetSpeed(Speed)` — a `Speed` can only be created by its constructor, which checks the value.
+  - Not this: `Command::SetSpeed(u32)` — the u32 can hold any value, and nothing ever checks it.
+  - E.g. `Speed` struct's private field is an integer (`value: u32`) (not as an enum, bool, char, or NonZero type). (Reason: Every bit pattern of an integer is a "legal" value. If such an 'always legal' stored value is later (out of bounds) corrupted, then `Speed`'s accessor method can still detect out-of-range values and return error code.)
+
+  ```rust
+  pub enum Command {
+      SetSpeed(Speed),   // custom struct inside the variant, not a bare u32
+      Stop,
+  }
+
+  pub struct Speed {
+      value: u32,        // private; integer storage; checked by new() and get()
+  }
+  ```
 
 ### Three-Level Recovery Hierarchy ("Let It Fail & Recover")
 Production-release failures should fit one of three bounded recovery tiers:
