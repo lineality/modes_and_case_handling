@@ -612,9 +612,10 @@ and the check happened inside that function.
 The function you called handed you a 'success-or-failure' result. 
 
 
-### Avoid '?' if Obscures error
-Use of '?' can be in tension or conflict with at least two of this framework's  goals / mechanisms (per-site variants, mode-gated diagnostics). Using '?' might reintroduce untraceable, unaudited propagation. In other cases not using '?' might create redundant error-data not directed at the original source if that can be propagated. Real life tends to be full of strange cases. 
-- '?' should be avoided where it would obscure an error.
+### Never Use '?'
+Use of '?' is in tension or conflict with at least two of this framework's  goals / mechanisms (per-site variants, mode-gated diagnostics). Using '?' silently reintroduces untraceable, unaudited propagation. Real life tends to be full of strange rare edge cases, but even so I am not aware: 
+- There are no areas where '?' is required-rigor in Rust. 
+- '?' is always a convenience-shortcut that is not compatible with this framework.
 
 Matching each call with a clear error pointing to that case improves transparency and communication.
 
@@ -628,17 +629,17 @@ e.g. ("is X length ≤ 42?", "is Y denominator 0?")
 
 // Internal invariants ONLY (omit this line for input validation):
 // panics in debug builds; compiled out of test and production-release builds.
+// Do not hard code a 2nd source of truth for the code.
 #[cfg(all(debug_assertions, not(test)))]
-debug_assert!(condition, "ACRO-NNN: fn_name: detail {}", value);
+debug_assert!(false, "ACRO-{}: fn_name: {}", StructName::....code(), _detail)
+
 
 if !condition {
-    // Debug/test diagnostic is permitted to format text (heap OK) 
-    // because this line
+    // Debug/test diagnostic. May format text (heap OK) because this line
     // is compiled out of production-release builds entirely.
-    // Note: single source of truth for number must be enforced,
-    // no hard-coding of code-numbers in messages
+    // Do not hard code a 2nd source of truth for the code.
     #[cfg(debug_assertions)]
-    eprintln!("ACRO-{}: fn_name: detail: {}", YourProjectError::AcroFnCondition.code(), value);
+    eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
 
     // Compiled in EVERY build; the only response that exists in
     // production-release: return the 2-byte code. No print, no heap.
@@ -738,14 +739,18 @@ match fallible_call(input) {
         // Debug Mode: panic in debug builds ONLY (not test, not production-release).
         // `debug_assert!(false, ...)` is the standard way to panic from
         // inside an Err arm; it compiles out of production-release builds.
+        // Do not hard code a 2nd source of truth for the code.
         #[cfg(all(debug_assertions, not(test)))]
-        debug_assert!(false, "ACRO-NNN: fn_name: {}", _detail);
+        debug_assert!(false, "ACRO-{}: fn_name: {}", StructName::....code(), _detail);
+
 
         // Verbose diagnostic, heap OK, compiled out of production-release.
         // For an internal invariant this runs in TEST builds only: in a debug build
-        // the debug_assert!(false, …) above panics first, so execution never reaches here.
+        // the debug_assert!(false, …) above panics first, so execution never
+        // Do not hard code a 2nd source of truth for the code.
         #[cfg(debug_assertions)]
-        eprintln!("ACRO-NNN: fn_name: {}", _detail);
+        eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
+
 
 
         // Production-release Mode: terse code. No heap. No PII. No print.
@@ -765,9 +770,9 @@ match fallible_call(input) {
     Err(_detail) => {
         // NO debug_assert!(false, …) here — this failure is expected, not a bug.
 
-        // Verbose diagnostic, heap OK, compiled out of production-release.
+        // Do not hard code a 2nd source of truth for the code.
         #[cfg(debug_assertions)]
-        eprintln!("ACRO-NNN: fn_name: {}", _detail);
+        eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
 
         // Production-release Mode: terse code. No heap. No PII. No print.
         Err(YourProjectError::AcroFnCondition)
@@ -889,4 +894,5 @@ Part of having a function be 'focused' means knowing if the function is in scope
 3. 
 
 ### Appendix 4: Advanced: Erasure of sensitive values as part of handling
+
 
