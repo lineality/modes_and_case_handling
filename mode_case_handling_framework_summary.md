@@ -50,7 +50,7 @@
 
 
 ### Enforced-Custom-Types & Value-Integrity:
-- Use `struct`/`enum`/`impl` to enforce value boundaries for inputs and intermediate values. This ensures invalid states (including bit-flips, corruption) are caught and handled as errors, not passed silently.
+- Use `struct`/`enum`/`impl` to enforce value boundaries for inputs and intermediate values, for compile-time value and logic guards, and for value-creation-time value guards. Manual re-checks can be designed and implimented to check and guard against out-of-range (but not in-range) value-changes.
 - required: add a validity-recheck into the .get() method
 - Optionally use a .validity_recheck() method
 - While a custom type in Rust can enforce and validate that a value is within the definition boundaries, this check only happens once when the constructor is run ( .new() ), assuming that the constructor was correctly written to carry out that check correctly. If memory-corruption happens after that initial check there are no automatic checks that will catch that the value is now invalid (e.g. as the value is returned from and accepted by another function). Additional .validity_recheck() methods can be made and used to manually check at specific points.
