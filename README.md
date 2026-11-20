@@ -612,12 +612,8 @@ and the check happened inside that function.
 The function you called handed you a 'success-or-failure' result. 
 
 
-### Never Use '?'
-Use of '?' is in tension or conflict with at least two of this framework's  goals / mechanisms (per-site variants, mode-gated diagnostics). Using '?' silently reintroduces untraceable, unaudited propagation. Real life tends to be full of strange rare edge cases, but even so I am not aware: 
-- There are no areas where '?' is required-rigor in Rust. 
-- '?' is always a convenience-shortcut that is not compatible with this framework.
-
-Matching each call with a clear error pointing to that case improves transparency and communication.
+### Use of '?'
+Case by case: Do not use '?' if doing so would obscure a case error, or issue. It is often best to pass an error along clearly, to raise it clearly, e.g. with '?', e.g. so that the problem that was raised is not obscured in a cascade of not-the-cause secondary 'error' messages (e.g. life in the python-nightmare). 
 
  
 ### The If-Detection-Pattern 
@@ -891,8 +887,6 @@ Part of having a function be 'focused' means knowing if the function is in scope
 
 1. redundant-checked values (less likely if both copies altered)
 2. Hamming code value formats
-3. 
 
 ### Appendix 4: Advanced: Erasure of sensitive values as part of handling
-
 
