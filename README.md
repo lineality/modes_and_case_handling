@@ -1,4 +1,3 @@
-(Under Construction)
 ### Modes & Case Handling Framework 
 2026 Geoffrey Gordon Ashbrook
 
@@ -612,8 +611,14 @@ and the check happened inside that function.
 The function you called handed you a 'success-or-failure' result. 
 
 
+## Communicate Errors Clearly
 ### Use of '?'
-Case by case: Do not use '?' if doing so would obscure a case error, or issue. It is often best to pass an error along clearly, to raise it clearly, e.g. with '?', e.g. so that the problem that was raised is not obscured in a cascade of not-the-cause secondary 'error' messages (e.g. life in the python-nightmare). 
+Case by case: Do not use '?' if doing so would obscure a case, error, or issue. It is often best to pass an error along clearly, to raise it clearly, e.g. with '?', e.g. so that the problem that was raised is not obscured in a cascade of not-the-cause secondary 'error' messages (e.g. life in the python-nightmare). 
+
+#### Common issues obscuring real [causes of] 'errors':
+1. ~Remapping / rerouting: e.g. .map_err(|_| SomeOtherCode) replaces the root cause with a not-the-cause code / message / response / handling (try/except is jungle of edge-cases, silent-cases, masked-cases, and missed-cases)
+2. Collapse: One generic code (ok_or(ValIndexOutOfBounds)) used at dozens of sites, so a code no longer identifies a site.
+3. Re-printing: Diagnostics printed at every level of propagation bury the first/real code/message.
 
  
 ### The If-Detection-Pattern 
@@ -887,6 +892,7 @@ Part of having a function be 'focused' means knowing if the function is in scope
 
 1. redundant-checked values (less likely if both copies altered)
 2. Hamming code value formats
+3. ...
 
 ### Appendix 4: Advanced: Erasure of sensitive values as part of handling
-
+...
