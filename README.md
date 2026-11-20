@@ -3,6 +3,8 @@
 ### Modes & Case Handling Framework 
 2026 Geoffrey Gordon Ashbrook
 
+```
+(construction-notes)
 # Four Levels of State Recovery:
 1. Error Correcting Code
 2. Single Value Retry/Recovery
@@ -63,6 +65,7 @@ Every production-release failure resolves into one of three bounded recovery tie
 - Tier 1: Micro-Retry (Local) — If err.is_retryable() is true, the immediate caller repeats the bounded operation (with backoff/sleep).
 - Tier 2: Step Fallback / Safe Degradation (Subsystem) — If non-retryable or attempts are exhausted, the subsystem safely aborts the current command, resets its internal state to a known-safe baseline, drops invalid work, and reports the error code up the stack.
 - Tier 3: Macro Re-initialization (Supervisory) — If an unrecoverable invariant/hardware failure occurs, the outer supervisor loop flushes queues, reinitializes the module/device, and continues execution without taking down the entire runtime.
+```
 
 # Modes and Case-Handling in General
 
