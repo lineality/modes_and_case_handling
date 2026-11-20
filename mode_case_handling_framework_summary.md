@@ -135,7 +135,7 @@ pub enum YourProjectError {
 ```rust
 if !condition {
     #[cfg(debug_assertions)]
-    eprintln!("ACRO-{}: fn_name: {}", StructName::....code(), _detail);
+    eprintln!("ACRO-{}: fn_name: {}", YourProjectError::AcroFnCondition.code(), value_being_checked);
     return Err(YourProjectError::AcroFnCondition);
 }
 ```
