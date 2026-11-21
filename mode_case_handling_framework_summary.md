@@ -111,7 +111,7 @@ Recovery tiers represent functional layers of 'state' in terms of 'recovery leve
   `Display` impl (for human-readable text) is compiled only for debug/test builds.
 
 #### Error Sites & Propagation:
-- Unique codes permit use of '?' because the unique code of the root-cause error is preserved (not obscured) by propagating the error.
+- '?' passes a code up unchanged: the error-code identifies the cause site, but not the exact call site that led there. Tradeoffs: What is best to show is a per-function choice (see "'?' and choosing which code the caller sees").
 - If an error site is of note, that site needs to throw a specific error code.
 - This acts as a proxy for manually checking for most internal-invariant type issues.
 
